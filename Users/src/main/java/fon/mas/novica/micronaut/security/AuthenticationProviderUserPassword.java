@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
 
     @Inject
     private UsersRepository usersRepository;
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
     @Override
@@ -29,26 +32,26 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
         String identity = (String) authRequest.getIdentity();
         String secret = (String) authRequest.getSecret();
 
-        log.info("User {} tries to login...", identity);
+        log.debug("User {} tries to login...", identity);
 
         Optional<UserEntity> optionalUser = usersRepository.findByUsername(identity);
 
         if (optionalUser.isPresent()) {
-            log.info("Found user!");
+            log.debug("Found user!");
 
             HashMap<String, Object> attributes = new HashMap<>();
             attributes.put("key", "value");
 
             UserEntity user = optionalUser.get();
-            if (user.getPassword().equals(secret)){
+            if (passwordEncoder.matches(secret, user.getPassword())){
                 return AuthenticationResponse.success(identity, List.of(user.getRole().getName()), attributes);
             } else {
-                log.info("Wrong password");
+                log.debug("Wrong password");
                 return AuthenticationResponse.failure("Wrong password");
             }
         }
 
-        log.info("No such user!");
+        log.debug("No such user!");
 
         return AuthenticationResponse.failure(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH);
     }

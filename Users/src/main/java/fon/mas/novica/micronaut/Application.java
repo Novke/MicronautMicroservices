@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class Application {
     UsersRepository usersRepository;
     @Inject
     RolesRepository rolesRepository;
+    @Inject
+    PasswordEncoder passwordEncoder;
     @Inject
     Environment environment;
     @Value("${config.source}")
@@ -53,17 +56,26 @@ public class Application {
 
         if (usersRepository.count()==0){
             log.debug("Generating users...");
-            usersRepository.save(
+            usersRepository.saveAll(List.of(
                     new UserEntity(
                             null,
                             "default@email.com",
                             "name",
                             "lastname",
                             "user",
-//                            encoder().encode("pass"),
-                            "pass",
+                            passwordEncoder.encode("pass"),
+                            rolesRepository.findById(1L).orElseThrow(),
+                            true),
+                    new UserEntity(
+                            null,
+                            "admin@email.com",
+                            "Novica",
+                            "Trifkovic",
+                            "admin",
+                            passwordEncoder.encode("admin"),
                             rolesRepository.findById(2L).orElseThrow(),
-                            true));
+                            true)
+            ));
         }
     }
 

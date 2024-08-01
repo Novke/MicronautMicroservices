@@ -10,6 +10,7 @@ import fon.mas.novica.micronaut.service.UsersService;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -22,12 +23,14 @@ public class UsersServiceImpl implements UsersService {
     RolesRepository rolesRepository;
     @Inject
     ModelMapper mapper;
+    @Inject
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserInfo createUser(CreateUserCmd user) {
         UserEntity userRequest = mapper.map(user, UserEntity.class);
         userRequest.setRole(rolesRepository.findById(1L).orElseThrow());
-//        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         UserEntity createdUser = usersRepository.save(userRequest);
         return mapper.map(createdUser, UserInfo.class);
     }
@@ -36,7 +39,7 @@ public class UsersServiceImpl implements UsersService {
     public UserInfo createAdmin(CreateUserCmd user) {
         UserEntity userRequest = mapper.map(user, UserEntity.class);
         userRequest.setRole(rolesRepository.findById(2L).orElseThrow());
-//        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         UserEntity createdUser = usersRepository.save(userRequest);
         return mapper.map(createdUser, UserInfo.class);
     }
