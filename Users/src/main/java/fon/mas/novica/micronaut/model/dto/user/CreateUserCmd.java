@@ -2,7 +2,7 @@ package fon.mas.novica.micronaut.model.dto.user;
 
 import io.micronaut.serde.annotation.Serdeable;
 
-@Serdeable
+@Serdeable.Deserializable
 public record CreateUserCmd(
         String username,
         String password,

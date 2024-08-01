@@ -29,7 +29,11 @@ public class UsersController {
 
 
     @Get
-    public Response getAllUsers(){
+    public Response getActiveUsers(){
         return Response.ok(usersService.findActiveUsers()).build();
+    }
+    @Get("/all")
+    public Response getAllUsers(){
+        return Response.ok(usersService.findAllUsers()).build();
     }
 }

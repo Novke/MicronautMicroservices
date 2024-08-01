@@ -2,6 +2,7 @@ package fon.mas.novica.micronaut.service.impl;
 
 import fon.mas.novica.micronaut.model.dto.user.CreateUserCmd;
 import fon.mas.novica.micronaut.model.dto.user.UserInfo;
+import fon.mas.novica.micronaut.model.dto.user.UserInsight;
 import fon.mas.novica.micronaut.model.entity.UserEntity;
 import fon.mas.novica.micronaut.repository.RolesRepository;
 import fon.mas.novica.micronaut.repository.UsersRepository;
@@ -44,6 +45,13 @@ public class UsersServiceImpl implements UsersService {
     public List<UserInfo> findActiveUsers() {
         return usersRepository.findAllByEnabledTrue().stream()
                 .map(u -> mapper.map(u, UserInfo.class))
+                .toList();
+    }
+
+    @Override
+    public List<UserInsight> findAllUsers() {
+        return usersRepository.findAll().stream()
+                .map(u -> mapper.map(u, UserInsight.class))
                 .toList();
     }
 }
