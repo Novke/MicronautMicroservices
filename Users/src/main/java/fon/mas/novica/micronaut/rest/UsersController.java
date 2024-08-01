@@ -1,14 +1,13 @@
 package fon.mas.novica.micronaut.rest;
 
 import fon.mas.novica.micronaut.model.dto.user.CreateUserCmd;
-import fon.mas.novica.micronaut.model.entity.UserEntity;
+import fon.mas.novica.micronaut.service.UsersService;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.modelmapper.ModelMapper;
 
@@ -18,11 +17,19 @@ public class UsersController {
 
     @Inject
     ModelMapper mapper;
-    @Post
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response createUser(@Body CreateUserCmd cmd){
-        UserEntity user = mapper.map(cmd, UserEntity.class);
+    @Inject
+    UsersService usersService;
 
-        return Response.ok(user.toString()).build();
+    @Post
+    public Response createUser(@Body CreateUserCmd cmd){
+        return Response.status(Response.Status.CREATED)
+                .entity(usersService.createUser(cmd))
+                .build();
+    }
+
+
+    @Get
+    public Response getAllUsers(){
+        return Response.ok(usersService.findActiveUsers()).build();
     }
 }

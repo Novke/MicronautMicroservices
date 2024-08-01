@@ -1,10 +1,12 @@
 package fon.mas.novica.micronaut.model.entity;
 
+import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
 //import jakarta.validation.constraints.Email;
 
 @Table(name = "users")
 @Entity
+@Serdeable
 public class UserEntity {
 
     @Id
@@ -25,6 +27,17 @@ public class UserEntity {
     private boolean enabled = true;
 
     public UserEntity() {
+    }
+
+    public UserEntity(Long id, String email, String firstName, String lastName, String username, String password, RoleEntity role, boolean enabled) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.enabled = enabled;
     }
 
     public Long getId() {
