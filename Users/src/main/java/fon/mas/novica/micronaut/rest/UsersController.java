@@ -6,6 +6,8 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -13,6 +15,7 @@ import org.modelmapper.ModelMapper;
 
 @Controller("/users")
 @Singleton
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class UsersController {
 
     @Inject
@@ -33,7 +36,14 @@ public class UsersController {
         return Response.ok(usersService.findActiveUsers()).build();
     }
     @Get("/all")
+    @Secured("ROLE_ADMIN")
     public Response getAllUsers(){
         return Response.ok(usersService.findAllUsers()).build();
+    }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Get("/hello")
+    public Response hello() {
+        return Response.ok("Hello!").build();
     }
 }

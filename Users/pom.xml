@@ -47,6 +47,7 @@
             <artifactId>micronaut-data-hibernate-jpa</artifactId>
             <scope>compile</scope>
         </dependency>
+<!--        CONSUL   -->
         <dependency>
             <groupId>io.micronaut.discovery</groupId>
             <artifactId>micronaut-discovery-client</artifactId>
@@ -57,21 +58,22 @@
             <artifactId>micronaut-jaxrs-server</artifactId>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.micronaut.jaxrs</groupId>-->
-<!--            <artifactId>micronaut-jaxrs-server-security</artifactId>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.micronaut.security</groupId>-->
-<!--            <artifactId>micronaut-security</artifactId>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.micronaut.security</groupId>-->
-<!--            <artifactId>micronaut-security-jwt</artifactId>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+<!--        SECURITY   -->
+        <dependency>
+            <groupId>io.micronaut.jaxrs</groupId>
+            <artifactId>micronaut-jaxrs-server-security</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-jwt</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>io.micronaut.serde</groupId>
             <artifactId>micronaut-serde-jackson</artifactId>
