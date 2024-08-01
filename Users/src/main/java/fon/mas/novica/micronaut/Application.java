@@ -4,6 +4,8 @@ import fon.mas.novica.micronaut.model.entity.RoleEntity;
 import fon.mas.novica.micronaut.model.entity.UserEntity;
 import fon.mas.novica.micronaut.repository.RolesRepository;
 import fon.mas.novica.micronaut.repository.UsersRepository;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.context.env.Environment;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
@@ -20,10 +22,22 @@ public class Application {
     UsersRepository usersRepository;
     @Inject
     RolesRepository rolesRepository;
+    @Inject
+    Environment environment;
+    @Value("${config.source}")
+    String configSource;
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);
+    }
+
+
+    @EventListener
+    void check(StartupEvent event){
+        log.info("======= CHECKING CONFIG SERVER =======");
+        log.info("Config source: {}", configSource);
+        log.info("======================================");
     }
 
     @EventListener
