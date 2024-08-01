@@ -1,17 +1,14 @@
 package fon.mas.novica.micronaut.rest;
 
 import fon.mas.novica.micronaut.model.dto.user.CreateUserCmd;
+import fon.mas.novica.micronaut.model.dto.user.UpdatePasswordCmd;
 import fon.mas.novica.micronaut.service.UsersService;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
-import org.modelmapper.ModelMapper;
 
 @Controller("/users")
 @Singleton
@@ -19,18 +16,18 @@ import org.modelmapper.ModelMapper;
 public class UsersController {
 
     @Inject
-    ModelMapper mapper;
-    @Inject
     UsersService usersService;
 
     @Post
+    @Secured("ROLE_ADMIN")
     public Response createUser(@Body CreateUserCmd cmd){
-        return Response.status(Response.Status.CREATED)
-                .entity(usersService.createUser(cmd))
-                .build();
+        return Response.status(Response.Status.CREATED).entity(usersService.createUser(cmd)).build();
     }
-
-
+    @Post("/admin")
+    @Secured("ROLE_ADMIN")
+    public Response createAdmin(@Body CreateUserCmd cmd){
+        return Response.status(Response.Status.CREATED).entity(usersService.createAdmin(cmd)).build();
+    }
     @Get
     public Response getActiveUsers(){
         return Response.ok(usersService.findActiveUsers()).build();
@@ -39,6 +36,26 @@ public class UsersController {
     @Secured("ROLE_ADMIN")
     public Response getAllUsers(){
         return Response.ok(usersService.findAllUsers()).build();
+    }
+
+    @Delete("/{user}")
+    @Secured("ROLE_ADMIN")
+    public Response disableUser(@PathVariable String user){
+        usersService.disableUser(user);
+        return Response.accepted().build();
+    }
+    @Patch("/{user}")
+    @Secured("ROLE_ADMIN")
+    public Response enableUser(@PathVariable String user){
+        usersService.enableUser(user);
+        return Response.accepted().build();
+    }
+
+    @Put
+    @Secured("ROLE_ADMIN")
+    public Response updatePassword(@Body UpdatePasswordCmd cmd){
+        usersService.updatePassword(cmd);
+        return Response.accepted().build();
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
