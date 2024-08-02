@@ -2,9 +2,11 @@ package fon.mas.novica.micronaut.model.dto.project;
 
 
 import fon.mas.novica.micronaut.model.enums.Status;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.LocalDate;
 
+@Serdeable.Serializable
 public class ProjectInfo {
 
     private String name;

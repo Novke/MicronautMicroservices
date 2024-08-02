@@ -1,5 +1,8 @@
 package fon.mas.novica.micronaut.model.dto.users;
 
+import io.micronaut.serde.annotation.Serdeable;
+
+@Serdeable
 public class UserInfo {
 
     private Long id;

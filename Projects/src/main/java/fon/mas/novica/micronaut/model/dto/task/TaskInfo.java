@@ -3,9 +3,11 @@ package fon.mas.novica.micronaut.model.dto.task;
 
 import fon.mas.novica.micronaut.model.entity.TaskEntity;
 import fon.mas.novica.micronaut.model.enums.Status;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.LocalDate;
 
+@Serdeable.Serializable
 public class TaskInfo {
     private Long id;
     private String title;
