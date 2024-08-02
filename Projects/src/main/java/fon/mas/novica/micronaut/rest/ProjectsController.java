@@ -5,10 +5,16 @@ import fon.mas.novica.micronaut.model.dto.task.CreateTaskCmd;
 import fon.mas.novica.micronaut.model.enums.Status;
 import fon.mas.novica.micronaut.service.ProjectsService;
 import io.micronaut.http.annotation.*;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 @Controller("/projects")
+@Secured(SecurityRule.IS_ANONYMOUS)
+@ExecuteOn(TaskExecutors.BLOCKING)
 public class ProjectsController {
 
     @Inject
