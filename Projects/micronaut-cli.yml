@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: fon.mas.novica.micronaut
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [ app-name, config-consul, consul, data, data-jpa, discovery-client, discovery-consul, http-client, java, java-application, jax-rs, jax-rs-security, jdbc-hikari, junit, logback, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, netty-server, postgres, properties, readme, security-annotations, security-jwt, serialization-jackson, shade, static-resources, test-resources ]
