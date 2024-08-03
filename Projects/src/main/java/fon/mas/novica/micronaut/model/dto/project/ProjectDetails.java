@@ -20,6 +20,9 @@ public class ProjectDetails {
     private String supervisorName;
     private List<TaskInfo> tasks;
 
+    public ProjectDetails() {
+    }
+
     public ProjectDetails(String name, String description, LocalDate startDate, LocalDate dueDate, LocalDate endDate, LocalDate createdDate, Status status, String supervisorName, List<TaskInfo> tasks) {
         this.name = name;
         this.description = description;

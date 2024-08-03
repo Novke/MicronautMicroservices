@@ -1,7 +1,10 @@
 package fon.mas.novica.micronaut.model.dto.notification;
 
+import io.micronaut.serde.annotation.Serdeable;
+
 import java.time.LocalDate;
 
+@Serdeable
 public record NewAssignmentNotif(
         String firstName,
         String lastName,

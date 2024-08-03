@@ -70,7 +70,7 @@ public class NewAssignmentNotif implements MyEmail {
                 lastName,
                 supervisor,
                 dueDate,
-                priority.toUpperCase(),
+                priority,
                 taskId,
                 email);
     }
