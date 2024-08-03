@@ -25,6 +25,10 @@
 
     <repositories>
         <repository>
+            <id>aws-maven-repo</id>
+            <url>https://sdk-for-java.amazonwebservices.com/maven2/</url>
+        </repository>
+        <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
@@ -51,6 +55,18 @@
             <artifactId>micronaut-email-javamail</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>ses</artifactId>
+            <version>2.26.28</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>sdk-core</artifactId>
+        <version>2.26.28</version>
+    </dependency>
+
         <dependency>
             <groupId>io.micronaut.serde</groupId>
             <artifactId>micronaut-serde-jackson</artifactId>
@@ -80,6 +96,11 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.jaxrs</groupId>
+            <artifactId>micronaut-jaxrs-server</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>
