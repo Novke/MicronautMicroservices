@@ -30,6 +30,7 @@ public class NotificationsController {
     @Post("/task-completed")
     public Response notifySupervisorTaskCompleted(@Body TaskCompletedNotif notification){
         log.info("TASK COMPLETED! {}", notification);
-        return null;
+        emailService.send(notification);
+        return Response.ok("Uspesno").build();
     }
 }
