@@ -1,6 +1,7 @@
 package fon.mas.novica.micronaut.model.dto.user;
 
 import fon.mas.novica.micronaut.model.dto.role.RoleInfo;
+import fon.mas.novica.micronaut.model.dto.xp.ExperienceInfo;
 import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable.Serializable
@@ -12,6 +13,7 @@ public class UserInsight {
     private RoleInfo role;
     private String email;
     private boolean enabled;
+    private ExperienceInfo experience;
 
     public Long getId() {
         return id;
@@ -67,5 +69,13 @@ public class UserInsight {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public ExperienceInfo getExperience() {
+        return experience;
+    }
+
+    public void setExperience(ExperienceInfo experience) {
+        this.experience = experience;
     }
 }

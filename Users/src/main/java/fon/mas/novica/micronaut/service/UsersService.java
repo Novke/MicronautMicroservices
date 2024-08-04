@@ -18,4 +18,5 @@ public interface UsersService {
     void updatePassword(UpdatePasswordCmd cmd);
     public UserInsight findById(Long id);
     public Boolean checkAuthorization(Authentication authentication, List<Long> ids);
+    Integer increaseTaskCount(Long id);
 }

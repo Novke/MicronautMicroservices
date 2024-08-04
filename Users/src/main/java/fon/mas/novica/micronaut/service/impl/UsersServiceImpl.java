@@ -15,12 +15,14 @@ import fon.mas.novica.micronaut.service.UsersService;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 @Singleton
+@Transactional
 public class UsersServiceImpl implements UsersService {
 
     @Inject
@@ -112,5 +114,15 @@ public class UsersServiceImpl implements UsersService {
         if (issuerId == null) return false;
 
         return ids.contains(issuerId);
+    }
+
+    @Override
+    public Integer increaseTaskCount(Long userId) {
+        UserEntity user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User with id " + userId + " does not exist!"));
+
+        Integer xp = user.getExperience().increase();
+        usersRepository.save(user);
+        return xp;
     }
 }
