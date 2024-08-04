@@ -29,4 +29,9 @@ public record UsersIO (UsersService usersService) {
         log.info("CHECK USER RECIEVED");
         return Response.ok(usersService.checkAuthorization(authentication, ids)).build();
     }
+
+    @Put("/{id}/add-task")
+    public Response increaseTaskCount(@PathVariable Long id){
+        return Response.ok(usersService.increaseTaskCount(id)).build();
+    }
 }
