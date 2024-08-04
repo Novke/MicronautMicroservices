@@ -2,7 +2,7 @@ package fon.mas.novica.micronaut.service.impl;
 
 import fon.mas.novica.micronaut.exception.ProjectNotFoundException;
 import fon.mas.novica.micronaut.exception.TaskNotFoundException;
-import fon.mas.novica.micronaut.exception.UnauthorizedActionException;
+import fon.mas.novica.micronaut.exception.UserNotFoundException;
 import fon.mas.novica.micronaut.io.NotificationsServiceClient;
 import fon.mas.novica.micronaut.io.UsersServiceClient;
 import fon.mas.novica.micronaut.model.dto.notification.NewAssignmentNotif;
@@ -103,7 +103,7 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Override
     public ProjectDetails showProjectDetails(Long id) {
         ProjectEntity project = projectsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found!"));
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id " + id + " not found!"));
 
         List<TaskInfo> tasks = new ArrayList<>();
         project.getTasks().forEach(te -> {
@@ -132,11 +132,15 @@ public class ProjectsServiceImpl implements ProjectsService {
 
         TaskInfo taskInfo = taskEntityToTaskInfo(tasksRepository.save(task));
 
-        if (status == Status.FINISHED && !Objects.equals(task.getAssigneeId(), task.getSupervisorId())) {
-            UserInfo assignee = findUserById(task.getAssigneeId());
-            UserInfo supervisor = findUserById(task.getSupervisorId());
+        if (status == Status.FINISHED) {
+            usersService.increaseTaskCount(task.getAssigneeId());
 
-            notifyTaskCompleted(assignee, supervisor, taskInfo);
+            if (!Objects.equals(task.getAssigneeId(), task.getSupervisorId())) {
+                UserInfo assignee = findUserById(task.getAssigneeId());
+                UserInfo supervisor = findUserById(task.getSupervisorId());
+
+                notifyTaskCompleted(assignee, supervisor, taskInfo);
+            }
         }
 
         return taskInfo;
@@ -172,7 +176,8 @@ public class ProjectsServiceImpl implements ProjectsService {
     //  UTIL FUNKCIJE
     ///////////////////
     private void throwIfUnauthorized(List<Long> ids){
-        if (!usersService.verifyAuthorization(ids)) throw new UnauthorizedActionException();
+        //TODO
+//        if (!usersService.verifyAuthorization(ids)) throw new UnauthorizedActionException();
     }
 
     private TaskInfo taskEntityToTaskInfo(TaskEntity entity){
@@ -198,7 +203,7 @@ public class ProjectsServiceImpl implements ProjectsService {
             log.error("ERROR in findUserById! status code: {}", ex.getStatus().getCode());
             throw ex;
         } catch (Exception ex) {
-            throw new RuntimeException("cant find user with id " + id, ex);
+            throw new UserNotFoundException("cant find user with id " + id, ex);
         }
     }
 }
