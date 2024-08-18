@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProjectsService {
     ProjectInfo createBlankProject(CreateProjectCmd project);
 
-    List<ProjectInfo> findAllProjects();
+    List<ProjectDetails> findAllProjects();
 
     List<ProjectInfo> findActiveProjects();
 

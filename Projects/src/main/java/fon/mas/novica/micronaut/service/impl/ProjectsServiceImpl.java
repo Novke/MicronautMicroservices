@@ -2,6 +2,7 @@ package fon.mas.novica.micronaut.service.impl;
 
 import fon.mas.novica.micronaut.exception.ProjectNotFoundException;
 import fon.mas.novica.micronaut.exception.TaskNotFoundException;
+import fon.mas.novica.micronaut.exception.UnauthorizedActionException;
 import fon.mas.novica.micronaut.exception.UserNotFoundException;
 import fon.mas.novica.micronaut.io.NotificationsServiceClient;
 import fon.mas.novica.micronaut.io.UsersServiceClient;
@@ -59,10 +60,10 @@ public class ProjectsServiceImpl implements ProjectsService {
     }
 
     @Override
-    public List<ProjectInfo> findAllProjects() {
+    public List<ProjectDetails> findAllProjects() {
         return projectsRepository.findAll()
                 .stream()
-                .map(p -> mapper.map(p, ProjectInfo.class))
+                .map(p -> mapper.map(p, ProjectDetails.class))
                 .toList();
     }
 
@@ -177,7 +178,7 @@ public class ProjectsServiceImpl implements ProjectsService {
     ///////////////////
     private void throwIfUnauthorized(List<Long> ids){
         //TODO
-//        if (!usersService.verifyAuthorization(ids)) throw new UnauthorizedActionException();
+        if (!usersService.verifyAuthorization(ids)) throw new UnauthorizedActionException();
     }
 
     private TaskInfo taskEntityToTaskInfo(TaskEntity entity){
