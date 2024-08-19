@@ -28,6 +28,7 @@ public record UsersIO (UsersService usersService) {
         Logger log = LoggerFactory.getLogger(this.getClass());
         log.info("CHECK USER RECIEVED");
         return Response.ok(usersService.checkAuthorization(authentication, ids)).build();
+//        return Response.ok(true).build();
     }
 
     @Put("/{id}/add-task")

@@ -119,7 +119,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        MAPPER      -->
 
         <!--        MODEL MAPPER    -->
         <dependency>
@@ -132,6 +131,13 @@
             <artifactId>modelmapper-module-record</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <!--        RESILIENCE  -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-retry</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
