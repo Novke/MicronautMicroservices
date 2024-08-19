@@ -17,16 +17,21 @@ public class AwsSesMailService implements EmailService {
     protected final String sourceEmail;
     protected final SesClient ses;
 
+    protected boolean enabled = false;
+
     public AwsSesMailService(@Value("${aws.region}") String awsRegionProp,
                              @Value("${aws.sourceemail}") String sourceEmailProp) {
 
         this.sourceEmail = sourceEmailProp;
-        String awsRegion = awsRegionProp;
-        this.ses = SesClient.builder().region(Region.of(awsRegion)).build();
+        this.ses = SesClient.builder().region(Region.of(awsRegionProp)).build();
+
+        LOG.info("Enabled: " + enabled);
     }
 
     @Override
     public void send(MyEmail email) {
+        if (!enabled) return;
+
         SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
                 .destination(Destination.builder().toAddresses(email.getRecipient()).build())
                 .source(sourceEmail)
